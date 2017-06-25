@@ -26,6 +26,8 @@ SECRET_KEY = '#n5u=cg07wpz2$v)z+j_99g7#zdf&8*u!_t_o+th^3)m^rb2je'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
     'uranus.kahsolt.cc'
 ]
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',
 ]
 
 MIDDLEWARE = [

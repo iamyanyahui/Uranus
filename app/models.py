@@ -18,7 +18,7 @@ class User(models.Model):
     )
     gender = models.CharField(max_length=8, choices=GENDER, default='male')
     tel = models.CharField(max_length=16, help_text='电话')
-    email = models.CharField(max_length=64)
+    email = models.EmailField(max_length=64)
 
 # [学期]
 class Term(models.Model):
@@ -31,7 +31,8 @@ class Term(models.Model):
     semester = models.CharField(max_length=8, choices=SEMESTER, default='spring')
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
-    # TODO: 周次安排？！！
+    startWeek = models.PositiveSmallIntegerField(help_text='课程开始的周次')
+    endWeek = models.PositiveSmallIntegerField()
 
 # [团队元信息]
 class TeamMeta(models.Model):
@@ -42,8 +43,8 @@ class TeamMeta(models.Model):
 
 # [课程]==[学期]&[团队元信息]
 class Course(models.Model):
-    term = models.ForeignKey(Term)         # 外键：学期
-    teamMeta = models.ForeignKey(TeamMeta)    # 外键：团队元信息
+    term = models.ForeignKey(Term)            # 学期
+    teamMeta = models.ForeignKey(TeamMeta)    # 团队元信息
     name = models.CharField(max_length=64)
     info = models.TextField(help_text='课程要求/其他说明')
     syllabus = models.TextField(help_text='课程大纲')
@@ -107,8 +108,7 @@ class Work(models.Model):
 # [资源文件]
 class File(models.Model):
     user = models.ForeignKey(User, help_text='上传者')
-    file = models.FileField()
-    path = models.FilePathField()
+    file = models.FileField(upload_to='file', help_text='文件实体，保存时为绝对路径(未重命名)')
     TYPE = (
         ('text', '文本'),
         ('document', '文档'),
@@ -126,12 +126,6 @@ class Attachment(models.Model):
         ('work', '作业提交'),
     )
     type = models.CharField(max_length=16, choices=TYPE, default='workmeta')
-
-# [日志]
-class Log(models.Model):
-    user = models.ForeignKey(User, help_text='操作员')
-    event = models.TextField(help_text='事件记录')
-    time = models.DateTimeField(auto_now_add=True)
 
 # [签到]
 class Attendance(models.Model):

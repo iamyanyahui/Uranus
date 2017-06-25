@@ -5,7 +5,6 @@ class User(models.Model):
     username = models.CharField(unique=True, max_length=32, help_text='学号/工号')
     password = models.CharField(max_length=64)
     name = models.CharField(max_length=32, help_text='实名')
-    photo = models.ImageField(upload_to='photo/', help_text='照片')
     classID = models.CharField(max_length=16, help_text='班号')
     ROLE = (
         ('student', '学生'),
@@ -38,7 +37,7 @@ class Term(models.Model):
 class TeamMeta(models.Model):
     minNum = models.PositiveSmallIntegerField(default=1)
     maxNum = models.PositiveSmallIntegerField(default=10)
-    startTime = models.DateTimeField()
+    startTime = models.DateTimeField(help_text='允许组队的开始时间')
     endTime = models.DateTimeField()
 
 # [课程]==[学期]&[团队元信息]
@@ -132,4 +131,9 @@ class Attachment(models.Model):
 class Log(models.Model):
     user = models.ForeignKey(User, help_text='操作员')
     event = models.TextField(help_text='事件记录')
+    time = models.DateTimeField(auto_now_add=True)
+
+# [签到]
+class Attendance(models.Model):
+    user = models.ForeignKey(User, help_text='学生')
     time = models.DateTimeField(auto_now_add=True)

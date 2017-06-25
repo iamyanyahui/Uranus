@@ -25,7 +25,9 @@ SECRET_KEY = '#n5u=cg07wpz2$v)z+j_99g7#zdf&8*u!_t_o+th^3)m^rb2je'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'uranus.kahsolt.cc'
+]
 
 
 # Application definition
@@ -77,8 +79,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'uranus',
-        'USER': 'root',
-        'PASSWORD': 'root',
+
+        'USER': 'uranus',
+        'PASSWORD': 'uranus',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }

@@ -2,34 +2,34 @@ from django.db import models
 
 # [用户:学生/教师/教务账户]
 class User(models.Model):
-    username = models.CharField(null=False, unique=True, max_length=32, help_text='学号/工号')
-    password = models.CharField(null=False, max_length=64)
-    photo = models.FileField(help_text='用于人脸识别的照片')
+    username = models.CharField(unique=True, max_length=32, help_text='学号/工号')
+    password = models.CharField(max_length=64)
+    name = models.CharField(max_length=32, help_text='实名')
+    photo = models.ImageField(upload_to='photo/', help_text='照片')
     classID = models.CharField(max_length=16, help_text='班号')
     ROLE = (
         ('student', '学生'),
-        ('teahcer', '教师'),
+        ('teacher', '教师'),
         ('admin', '教务'),
     )
-    role = models.CharField(max_length=16, choices=ROLE, default='学生')
-    name = models.CharField(null=False, max_length=32, help_text='实名')
+    role = models.CharField(max_length=16, choices=ROLE, default='student')
     GENDER = (
         ('male', '男'),
         ('female', '女'),
     )
-    gender = models.CharField(max_length=8, choices=GENDER, default='男')
-    tel = models.CharField(max_length=11, help_text='电话')
+    gender = models.CharField(max_length=8, choices=GENDER, default='male')
+    tel = models.CharField(max_length=16, help_text='电话')
     email = models.CharField(max_length=64)
 
 # [学期]
 class Term(models.Model):
-    info = models.TextField(help_text='说明性信息')
+    info = models.TextField(help_text='学期说明信息')
     year = models.IntegerField()
     SEMESTER = (
-        ('spring', '春'),
-        ('autumn', '秋'),
+        ('spring', '春季学期'),
+        ('autumn', '秋季学期'),
     )
-    semester = models.CharField(max_length=8, choices=SEMESTER, default='春')
+    semester = models.CharField(max_length=8, choices=SEMESTER, default='spring')
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
     # TODO: 周次安排？！！
@@ -55,7 +55,7 @@ class Course(models.Model):
         ('ongoing', '正在进行'),
         ('ended', '已结束'),
     )
-    status = models.CharField(max_length=16, choices=STATUS, default='未开始')
+    status = models.CharField(max_length=16, choices=STATUS, default='unstarted')
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
 
@@ -74,7 +74,7 @@ class Team(models.Model):
         ('passed', '已通过'),
         ('rejected', '已驳回')
     )
-    status = models.CharField(max_length=16, choices=STATUS, default='未提交')
+    status = models.CharField(max_length=16, choices=STATUS, default='unsubmitted')
     info = models.TextField(help_text='通过欢迎信息/驳回理由')
 
 # <团队成员>==[团队]&[用户:学生账户]
@@ -85,7 +85,7 @@ class Member(models.Model):
         ('leader', '队长'),
         ('member', '队员'),
     )
-    role = models.CharField(max_length=16, choices=ROLE, default='队员')
+    role = models.CharField(max_length=16, choices=ROLE, default='member')
     contribution = models.FloatField(help_text='成员贡献度:0.4~1.2')
 
 # [作业任务]~~<附件>
@@ -115,7 +115,7 @@ class File(models.Model):
         ('document', '文档'),
         ('media', '视频'),
     )
-    type = models.CharField(max_length=16, choices=TYPE, default='作业任务')
+    type = models.CharField(max_length=16, choices=TYPE, default='text')
 
 # <附件>==[作业任务|作业提交]&[资源文件]
 class Attachment(models.Model):
@@ -126,10 +126,10 @@ class Attachment(models.Model):
         ('workmeta', '作业任务'),
         ('work', '作业提交'),
     )
-    type = models.CharField(max_length=16, choices=TYPE, default='作业任务')
+    type = models.CharField(max_length=16, choices=TYPE, default='workmeta')
 
 # [日志]
 class Log(models.Model):
     user = models.ForeignKey(User, help_text='操作员')
-    event = models.TextField(help_text='日志事件记录')
-    time = models.DateTimeField()
+    event = models.TextField(help_text='事件记录')
+    time = models.DateTimeField(auto_now_add=True)

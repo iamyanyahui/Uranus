@@ -1,2 +1,4 @@
 .idea/
 *.pyc
+*/migrations/*
+Uranus/__pycache__/

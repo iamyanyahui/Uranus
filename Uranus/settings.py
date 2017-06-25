@@ -25,7 +25,9 @@ SECRET_KEY = '#n5u=cg07wpz2$v)z+j_99g7#zdf&8*u!_t_o+th^3)m^rb2je'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'uranus.kahsolt.cc'
+]
 
 
 # Application definition
@@ -54,8 +56,7 @@ ROOT_URLCONF = 'Uranus.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,9 +79,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'uranus',
+<<<<<<< HEAD
         'USER': 'root',
-        'PASSWORD': '123',
-        # 'HOST': '139.199.121.97',
+        'PASSWORD': '123456',
+=======
+        'USER': 'uranus',
+        'PASSWORD': 'uranus',
+>>>>>>> 4086e97358c246d39d821513dbb30aee99631cf8
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -111,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -124,3 +129,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]

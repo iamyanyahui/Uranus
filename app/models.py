@@ -22,6 +22,7 @@ class User(models.Model):
     email = models.EmailField(max_length=64)
 
 
+
 # [学期]
 class Term(models.Model):
     info = models.TextField(help_text='学期说明信息')
@@ -35,6 +36,7 @@ class Term(models.Model):
     endTime = models.DateTimeField()
     startWeek = models.PositiveSmallIntegerField(help_text='课程开始的周次')
     endWeek = models.PositiveSmallIntegerField()
+
 
 
 # [团队元信息]
@@ -137,6 +139,14 @@ class Attachment(models.Model):
         ('work', '作业提交'),
     )
     type = models.CharField(max_length=16, choices=TYPE, default='workmeta')
+
+
+# [日志]
+class Log(models.Model):
+    user = models.ForeignKey(User, help_text='操作员')
+    event = models.TextField(help_text='事件记录')
+    time = models.DateTimeField(auto_now_add=True)
+
 
 # [签到]
 class Attendance(models.Model):

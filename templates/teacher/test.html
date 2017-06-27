@@ -1,0 +1,23 @@
+<HTML>
+ <HEAD>
+     {% load static %}
+  <TITLE> New Document </TITLE>
+ <script   language=JavaScript>
+  function   trans(){
+  var   objWordApp   =   new   ActiveXObject("Word.Application");
+  var   objWordDoc   =   objWordApp.Documents.Open('{% static "teacher/test_word.docx" %}');   //存放word文件的路径。
+  objWordDoc.Windows(1).Selection.WholeStory();
+  document.all.oDiv.innerText=objWordDoc.Windows(1).Selection.Text;
+  objWordApp.ActiveDocument.Close(0);
+  objWordApp.Quit();
+  return   true;
+  }
+  </script>
+  <button   onclick='trans()'>读取文件</button>
+  <br><textarea   id=oDiv   cols=80   rows=30></textarea>
+  </html>
+ </HEAD>
+
+ <BODY>
+</BODY>
+</HTML>

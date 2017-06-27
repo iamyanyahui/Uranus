@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<title>发布预约信息</title>
+    {% load static %}
+    {% load l10n %}
+    {{ value|localize }}
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<meta content="" name="description">
+<meta content="" name="author">
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/global/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/global/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/global/plugins/uniform/css/uniform.default.css' %}" rel="stylesheet" type="text/css">
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+<link href="{% static 'assets/global/plugins/morris/morris.css' %}" rel="stylesheet" type="text/css">
+<!-- END PAGE LEVEL PLUGIN STYLES -->
+<!-- BEGIN PAGE STYLES -->
+<link href="{% static 'assets/admin/pages/css/tasks.css' %}" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="{% static 'assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+<!-- END PAGE STYLES -->
+<!-- BEGIN THEME STYLES -->
+<!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
+<link href="{% static 'assets/global/css/components-rounded.css' %}" id="style_components" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/global/css/plugins.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/admin/layout3/css/layout.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'assets/admin/layout3/css/themes/test.css' %}" rel="stylesheet" type="text/css" id="style_color">
+<link href="{% static 'assets/admin/layout3/css/custom.css' %}" rel="stylesheet" type="text/css">
+<!-- END THEME STYLES -->
+<link rel="shortcut icon" href="favicon.ico">
+
+</head>
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-header-menu-fixed" class to set the mega menu fixed  -->
+<!-- DOC: Apply "page-header-top-fixed" class to set the top menu fixed  -->
+<body>
+<!-- BEGIN HEADER -->
+<div class="page-header">
+	<!-- BEGIN HEADER TOP -->
+	<div class="page-header-top">
+		<div class="container">
+			<!-- BEGIN LOGO -->
+			<div class="page-logo">
+				<a href="{% url 'publisher:index' %}"><img src="{% static 'assets/admin/layout3/img/logo-default.png' %}" alt="logo" class="logo-default"></a>
+			</div>
+			<!-- END LOGO -->
+			<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+			<a href="javascript:;" class="menu-toggler"></a>
+			<!-- END RESPONSIVE MENU TOGGLER -->
+			<!-- BEGIN TOP NAVIGATION MENU -->
+			<div class="top-menu">
+				<ul class="nav navbar-nav pull-right">
+
+
+					<li class="droddown dropdown-separator">
+						<span class="separator"></span>
+					</li>
+
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown dropdown-user dropdown-dark">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<img alt="" class="img-circle" src="{% static 'assets/admin/layout3/img/avatar9.jpg' %}">
+						<span class="username username-hide-mobile">{{ loginname }}</span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-default">
+							<li>
+								<a href="{% url 'publisher:logout' %}">
+								<i class="icon-logout"></i> 注销登录 </a>
+							</li>
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+			</div>
+			<!-- END TOP NAVIGATION MENU -->
+		</div>
+	</div>
+	<!-- END HEADER TOP -->
+	<!-- BEGIN HEADER MENU -->
+	<div class="page-header-menu">
+		<div class="container">
+			<!-- BEGIN MEGA MENU -->
+			<!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+			<!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
+			<div class="hor-menu ">
+				<ul class="nav navbar-nav">
+					<li class="menu-dropdown">
+						<a href="{% url 'publisher:create' %}"  class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="发布预约信息">
+						发布预约信息</a>
+					</li>
+					<li class="menu-dropdown">
+						<a href="{% url 'publisher:batchUpload' %}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="批量发布">
+						批量发布</a>
+					</li>
+					<li class="menu-dropdown">
+						<a href="{% url 'publisher:index' %}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="已发布预约信息">
+						已发布预约信息</a>
+					</li>
+				</ul>
+			</div>
+			<!-- END MEGA MENU -->
+		</div>
+	</div>
+	<!-- END HEADER MENU -->
+</div>
+<!-- END HEADER -->
+<div class="page-container">
+	<div class="page-head">
+		<div class="container">
+			<div class="page-title">
+				<h1>发布预约信息</h1>
+			</div>
+		</div>
+	</div>
+
+	<div class="page-content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+						<div class="portlet light">
+							<div class="portlet-title">
+										<div class="caption">
+											<i class="fa fa-gift"></i>发布预约信息
+										</div>
+                                        {% if error_message %}
+                                            <div id="error" style="margin-top: 8px;margin-left: 300px;color: #ff383a;position: absolute;font-family: '微软雅黑 Light';font-size: large;font-weight: bold;">
+                                                {{ error_message }}</div>
+                                        {% endif %}
+									</div>
+									<div class="portlet-body form">
+										<!-- BEGIN FORM-->
+										<form method="post" class="form-horizontal">
+											<div class="form-body">
+												<div class="form-group">
+													<label class="col-md-3 control-label">预约费用</label>
+													<div class="col-md-4">
+														<div class="input-icon">
+															<i class="fa fa-bell-o"></i>
+                                                            {{ form.fee }}
+{#															<input class="form-control input-circle" placeholder="预约费用" type="text">#}
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label">可预约时间</label>
+                                                    <div class="col-md-4">
+														<div class="input-group date form_datetime input-large" id="datetimepicker">
+{#															<input type="text" size="16" readonly class="form-control">#}
+                                                            {{ form.available_time }}
+															<span class="input-group-btn">
+{#															<button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button>#}
+															<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
+															</span>
+														</div>
+														<!-- /input-group -->
+													</div>
+                                                </div>
+
+												<div class="form-group">
+													<label class="col-md-3 control-label">可预约人数</label>
+													<div class="col-md-4">
+														<div class="input-icon">
+															<i class="fa fa-bell-o"></i>
+                                                            {{ form.count_available }}
+{#															<input class="form-control input-circle" placeholder="可预约人数" type="text">#}
+															</span>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label">已预约人数</label>
+													<div class="col-md-4">
+														<div class="input-icon">
+															<i class="fa fa-bell-o"></i>
+                                                            {{ form.count_occupied }}
+{#															<input class="form-control input-circle" placeholder="已预约人数" type="text">#}
+														</div>
+													</div>
+												</div>
+
+
+
+                                                <div class="form-group">
+													<label class="col-md-3 control-label">医生所属科室</label>
+													<div class="col-md-6">
+                                                        {{ form.department }}
+											            <span class="help-block"></span>
+
+										            </div>
+												</div>
+                                                <div class="form-group">
+													<label class="col-md-3 control-label">医生实名</label>
+													<div class="col-md-6">
+                                                        {{ form.doctor }}
+											            <span class="help-block"></span>
+
+										            </div>
+												</div>
+
+												<div class="form-actions">
+													<div class="row">
+														<div class="col-md-offset-3 col-md-9">
+                                                            {% csrf_token %}
+															<button id="submit-button" type="submit" class="btn btn-circle blue">提交</button>
+{#															<button type="button" class="btn btn-circle default">取消</button>#}
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</form>
+										<!-- END FORM-->
+									</div>
+					</div>
+					<!-- END EXAMPLE TABLE PORTLET-->
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- BEGIN JAVASCRIPTS (Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="{% static 'assets/global/plugins/respond.min.js' %}"></script>
+<script src="{% static 'assets/global/plugins/excanvas.min.js' %}"></script>
+<![endif]-->
+<script src="{% static 'assets/global/plugins/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/jquery-migrate.min.js' %}" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="{% static 'assets/global/plugins/jquery-ui/jquery-ui.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/jquery.blockui.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/jquery.cokie.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/uniform/jquery.uniform.min.js' %}" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag & drop support -->
+<script src="{% static 'assets/global/plugins/morris/morris.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/morris/raphael-min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/jquery.sparkline.min.js' %}" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script type="text/javascript" src="{% static 'assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js' %}"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="{% static 'assets/global/scripts/metronic.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/admin/layout3/scripts/layout.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/admin/layout3/scripts/demo.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/admin/pages/scripts/components-pickers.js' %}" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<script>
+    //data-date="2016-12-21T15:25:00Z"
+    function getTimeToShow() {
+        var timeToShow = new Date().toISOString();
+        if ('{{ availabletime}}') {
+            timeToShow = '{{ availabletime}}';
+        }
+        return timeToShow;
+    }
+    function initSelector(){
+        var department_selector = $('#id_department');
+        var doctor_selector = $('#id_doctor');
+        var department_option = '<option value="-1" selected>==请选择科室==</option>';
+        var doctor_option = '<option value="-1" selected>==请选择医生==</option>';
+        department_selector.prepend(department_option);
+        doctor_selector.prepend(doctor_option);
+    }
+    $(function(){
+        var form_input = $('form input');
+        form_input.addClass('form-control input-circle');
+        $(form_input[0]).attr('预约费用');
+        $(form_input[1]).attr('可预约时间');
+        $(form_input[1]).attr('readonly', 'readonly');
+        $(form_input[1]).removeClass('form-control input-circle');
+        $(form_input[1]).addClass('form-control');
+        $(form_input[2]).attr('可预约人数');
+        $(form_input[3]).attr('已预约人数');
+
+        var form_select = $('form select');
+        form_select.addClass('form-control select2me');
+        form_select.attr('date-placeholder', '选择...');
+
+        $('#datetimepicker').datetimepicker('setStartDate', getTimeToShow());
+        initSelector();
+    });
+
+    $('#submit-button').click(function(){
+        if($('#id_department option:selected').val()==-1){
+            alert('请选择科室！');
+            return false;
+        }
+        return true;
+    });
+jQuery(document).ready(function() {
+           // initiate layout and plugins
+    Metronic.init(); // init metronic core components
+    Layout.init(); // init current layout
+    Demo.init(); // init demo features
+    ComponentsPickers.init();
+        });
+
+
+	var doctor_department = {{ doctor_department|safe }};
+	var department_selector = document.getElementById('id_department');
+	var doctor_selector = document.getElementById("id_doctor");
+
+	function fill_options(selector,data)
+	{
+		for(var i = 0;i < data.length;i++)
+		{
+			var option = document.createElement('option'); //create option tags
+			option.value = data[i][0];
+			var textNode = document.createTextNode(data[i][1]);
+			option.appendChild(textNode);
+			selector.appendChild(option);
+		}
+	}
+
+	function set_selector(text,id)
+	{
+		var selectObj=document.getElementById(id);
+		for (var i=0; i < selectObj.options.length; i++)
+		{
+			var curOptObj=selectObj.options[i];
+			var curText=curOptObj.text;
+			if(text==curText)
+			{
+				curOptObj.selected=true;
+				break;
+			}
+		}
+	}
+	function auto_fill_form()
+	{
+		document.getElementById('id_fee').value="{{ fee }}";
+		document.getElementById('id_available_time').value="{{ availabletime }}";
+		document.getElementById('id_count_available').value="{{ countavailable }}";
+		document.getElementById('id_count_occupied').value="{{ countoccupied }}";
+		set_selector("{{ department }}","id_department");
+		set_selector("{{ doctor }}","id_doctor");
+	}
+	window.onload = auto_fill_form;
+
+	department_selector.onchange = function()
+	{
+		doctor_selector.options.length = 0;
+		var department_index = this.selectedIndex;
+		var department_name = this.options[department_index].text;
+		doctors = doctor_department[department_name];
+		fill_options(doctor_selector,doctors);
+	}
+
+
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>
